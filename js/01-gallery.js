@@ -3,23 +3,11 @@ import { galleryItems } from "./gallery-items.js";
 
 console.log(galleryItems);
 
-// const instance = basicLightbox.create(`
-//     <div class="modal">
-//         <p>
-//             Your first lightbox with just a few lines of code.
-//             Yes, it's really that simple.
-//         </p>
-//     </div>
-// `);
-
-// instance.show();
-
-const galleryEl = document.querySelector(".gallery");
-
-function makeGallery(item) {
-  const galleryItemsCreate = item
-    .map(({ preview, original, description }) => {
-      return `<div class="gallery__item">
+const randerList = (items) =>
+  items
+    .map(
+      ({ preview, original, description }) =>
+        `<div class="gallery__item">
     <a class="gallery__link" href="${original}">
         <img
       class="gallery__image"
@@ -28,9 +16,32 @@ function makeGallery(item) {
       alt=${description}
         />
     </a>
-</div>`;
-    })
+</div>`
+    )
     .join("");
 
-  return galleryEl.insertAdjacentHTML("afterbegin", galleryItemsCreate);
+console.log(randerList(galleryItems));
+
+const galleryItemsCreate = (el) => {
+  const galleryEl = document.querySelector(".gallery");
+  galleryEl.insertAdjacentHTML("beforeend", el);
+};
+
+galleryItemsCreate(randerList(galleryItems));
+
+const modalOpen = document.querySelector(".gallery");
+modalOpen.addEventListener("click", onPictureClick);
+
+function onPictureClick(event) {
+  event.preventDefault();
+
+  if (!event.target.classList.contains("gallery__image")) {
+    return;
+  }
+
+  const instance = basicLightbox.create(`
+    <img src="${event.target.dataset.source}">
+`);
+
+  instance.show();
 }
