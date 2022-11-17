@@ -7,16 +7,16 @@ const randerList = (items) =>
   items
     .map(
       ({ preview, original, description }) =>
-        `<div class="gallery__item">
-    <a class="gallery__link" href="${original}">
-        <img
-      class="gallery__image"
-      src=${preview}
-      data-source=${original}
-      alt=${description}
-        />
-    </a>
-</div>`
+        `<li>
+          <a class="gallery__link" href="${original}">
+            <img
+              class="gallery__image"
+              src=${preview}
+              data-source=${original}
+              alt=${description}
+            />
+          </a>
+        </li>`
     )
     .join("");
 
@@ -31,5 +31,6 @@ galleryItemsCreate(randerList(galleryItems));
 
 const openGallery = new SimpleLightbox(".gallery a", {
   captionsData: "alt",
-  captionsDelay: 250,
+  captionPosition: "bottom",
+  captionDelay: 250,
 });
